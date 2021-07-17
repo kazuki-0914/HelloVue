@@ -1,7 +1,7 @@
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-
+  ssr: false,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'HelloVue',
@@ -37,8 +37,27 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
-
+  auth: {
+    plugins: ['~/plugins/auth.js'],
+    strategies: {
+      auth0: {
+        domain: 'dev-kaikun914.auth0.com',
+        client_id: 'dtudwUREcPlip7suoUaCj852IDfUROZB'
+      }
+    },
+    redirect: {
+      login: '/',  // 未ログイン時のリダイレクト先
+      logout: '/',  // ログアウト後のリダイレクト先
+      callback: '/callback',  // コールバック
+      home: '/home',  // ログイン後のページ
+    }
+  },
+  router: {
+    middleware: ['auth']
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }
